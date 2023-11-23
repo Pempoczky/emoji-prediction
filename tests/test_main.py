@@ -27,11 +27,11 @@ data_length = len(val_labels_split) + len(train_labels_split)
 classes = np.arange(20)
 counts = np.array([])
 percentages = np.array([])
+total_percentage = 0
 for i in range(20):
-    counts = np.append(counts, val_labels.count(str(i)) + train_labels.count(str(i)))
-    percentages = np.append(percentages, 100 * (val_labels.count(str(i)) + train_labels.count(str(i))) / data_length)
+    counts = np.append(counts, val_labels_split.count(str(i)) + train_labels_split.count(str(i)))
+    percentages = np.append(percentages, 100 * (val_labels_split.count(str(i)) + train_labels_split.count(str(i))) / data_length)
 
-#print(val_labels_split)
 print(classes)
 print(counts)
 print(percentages)
