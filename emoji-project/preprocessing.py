@@ -1,5 +1,4 @@
 import numpy as np
-#from nltk.tokenize import LineTokenizer, TweetTokenizer
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from nltk.tokenize import LineTokenizer, TweetTokenizer
 
