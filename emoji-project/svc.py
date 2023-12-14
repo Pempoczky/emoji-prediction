@@ -1,7 +1,9 @@
 import numpy as np
 from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from scipy.sparse import load_npz
+import matplotlib.pyplot as plt
+import seaborn as sns
 import joblib
 
 # Load the TF-IDF matrices
@@ -28,3 +30,13 @@ print(f"Classification Report:\n{report}")
 
 # Save the trained classifier
 joblib.dump(svc, 'models/svc_model.joblib')
+
+# Generate the confusion matrix
+conf_matrix: np.ndarray = confusion_matrix(val_labels, y_pred)
+
+plt.figure(figsize=(10, 7))
+sns.heatmap(conf_matrix, annot=True, fmt='g')
+plt.xlabel('Predicted Labels')
+plt.ylabel('True Labels')
+plt.title('Confusion Matrix')
+plt.show()
