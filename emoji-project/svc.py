@@ -10,10 +10,9 @@ train_labels = np.loadtxt('data/train_labels.txt', dtype=int)  # Corrected the p
 
 X_val = load_npz('features/val_feature_data.npz')
 val_labels = np.loadtxt('data/val_labels.txt', dtype=int)  # Corrected the path for validation labels
-print(X_val)
-print(X_train)
+
 # Initialize the Support Vector Classifier
-svc = SVC()
+svc = SVC()  # Use class_weight='balanced' argument for balanced class weights
 
 # Fit the classifier to the training data
 svc.fit(X_train, train_labels)
