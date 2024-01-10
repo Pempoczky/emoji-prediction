@@ -22,7 +22,7 @@ app = FastAPI(
     description="""
 # An API endpoint to access an SVM
 # Model usage
-The model is trained on a dataset of US tweets, and so the input should roughly resemble a tweet for best results. 
+The model is trained on a dataset of US tweets, and so the input should roughly resemble a tweet for best results.
 The input should not be more than 280 characters.
 
 ## Limitations
@@ -35,12 +35,15 @@ The model is sourced from https://github.com/Pempoczky/emoji-prediction.
 )
 
 # Load the trained classifier
-svc_model = joblib.load('models/svc_model.joblib')
+#svc_model = joblib.load('models/svc_model.joblib')
 
 
 class TextInput(BaseModel):
     text: str
 
+@app.get("/", description="Root endpoint that redirects to documentation.")
+async def root():
+    return RedirectResponse(url='/docs')
 
 @app.post("/predict", description="Text classifier endpoint. Input text into the text field to send "
                                   "request. Text should not be more than 280 characters. "
