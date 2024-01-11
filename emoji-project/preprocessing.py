@@ -28,4 +28,4 @@ X_val = vectorizer.transform(lineSeparatedValText)
 # Save the sparse matrices
 save_npz('features/train_feature_data.npz', X_train)
 save_npz('features/val_feature_data.npz', X_val)
-joblib.dump(vectorizer, 'models/vectorizer_model.joblib')
+# joblib.dump(vectorizer, 'models/vectorizer_model.joblib')
