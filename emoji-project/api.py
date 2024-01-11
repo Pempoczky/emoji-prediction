@@ -35,7 +35,8 @@ The model is sourced from https://github.com/Pempoczky/emoji-prediction.
 )
 
 # Load the trained classifier
-#svc_model = joblib.load('models/svc_model.joblib')
+vectorizer_model = joblib.load('models/vectorizer_model.joblib')
+svc_model = joblib.load('models/svc_model.joblib')
 
 
 class TextInput(BaseModel):
@@ -51,7 +52,8 @@ async def root():
 async def predict(text_input: TextInput):
     text = text_input.text
 
-    vectorizer = TfidfVectorizer(tokenizer=tokenize, stop_words='english', token_pattern=None)
+    # vectorizer = TfidfVectorizer(tokenizer=tokenize, stop_words='english', token_pattern=None)
+    vectorizer = vectorizer_model
 
     # Vectorize the preprocessed text using the same vectorizer as during training
     try:
