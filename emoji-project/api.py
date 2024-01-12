@@ -1,4 +1,5 @@
 import joblib
+import os
 from typing import Union
 
 from nltk.tokenize import TweetTokenizer
@@ -35,7 +36,13 @@ The model is sourced from https://github.com/Pempoczky/emoji-prediction.
 )
 
 # Load the trained classifier
-vectorizer = joblib.load('models/vectorizer_model.joblib')
+if not os.path.isfile('models/vectorizer_model.joblib'):
+    tfidfVectorizer = TfidfVectorizer(tokenizer=tokenize, stop_words='english', token_pattern=None)
+    train_text = open('data/train_text.txt', encoding="utf-8").read()
+    lineSeparatedTrainText = train_text.splitlines()
+    X = tfidfVectorizer.fit_transform(lineSeparatedTrainText)
+    joblib.dump(tfidfVectorizer, 'models/vectorizer_model.joblib')
+vectorizer_model = joblib.load('models/vectorizer_model.joblib')
 svc_model = joblib.load('models/svc_model.joblib')
 
 
@@ -53,7 +60,7 @@ async def predict(text_input: TextInput):
     text = text_input.text
 
     # vectorizer = TfidfVectorizer(tokenizer=tokenize, stop_words='english', token_pattern=None)
-    # vectorizer = vectorizer_model
+    vectorizer = vectorizer_model
 
     # Vectorize the preprocessed text using the same vectorizer as during training
     try:
@@ -61,7 +68,7 @@ async def predict(text_input: TextInput):
         vectorized_text = vectorizer.transform([text])
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error in text preprocessing: {str(e)}")
-
+    print(vectorized_text)
     # Make predictions using the loaded model
     prediction = svc_model.predict(vectorized_text)
 
