@@ -16,20 +16,28 @@ val_labels = np.loadtxt('data/val_labels.txt', dtype=int)
 # Load the pre-trained models
 svc = joblib.load('models/best_svc_model.joblib')
 knn = joblib.load('models/best_knn_classifier_model.joblib')
-tree = joblib.load('models/best_dt_classifier_model.joblib')
+
+# Allow for probability estimates for soft voting
+svc.probability = True
+knn.probability = True
 
 # Create a Voting Classifier
 ensemble_classifier = VotingClassifier(
     estimators=[
         ('svc', svc),
         ('knn', knn),
-        ('tree', tree)
     ],
-    voting='hard'  # 'hard' for majority voting, 'soft' for weighted voting
+    voting='soft'  # weighted voting, the decision tree model is excluded because it cannot provide
+                   # probability estimates
+                   # for the other two classes, the 'soft' argument leads the VotingClassifier to call predict_proba(X)
+                   # instead of predict(X)
 )
 
 # Fit the Voting Classifier to the training data
 ensemble_classifier.fit(X_train, train_labels)
+
+# Save the ensemble
+joblib.dump(ensemble_classifier, 'models/soft_ensemble_classifier.joblib')
 
 # Make predictions on the validation set
 y_pred = ensemble_classifier.predict(X_val)

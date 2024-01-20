@@ -25,11 +25,14 @@ ensemble_classifier = VotingClassifier(
         ('knn', knn),
         ('tree', tree)
     ],
-    voting='hard'  # 'hard' for majority voting, 'soft' for weighted voting
+    voting='hard'  # majority voting: ties are broken using the alphabetical order of the classes
 )
 
 # Fit the Voting Classifier to the training data
 ensemble_classifier.fit(X_train, train_labels)
+
+# Save the ensemble
+joblib.dump(ensemble_classifier, 'models/hard_ensemble_classifier.joblib')
 
 # Make predictions on the validation set
 y_pred = ensemble_classifier.predict(X_val)
