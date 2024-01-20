@@ -43,7 +43,7 @@ if not os.path.isfile('models/vectorizer_model.joblib'):
     X = tfidfVectorizer.fit_transform(lineSeparatedTrainText)
     joblib.dump(tfidfVectorizer, 'models/vectorizer_model.joblib')
 vectorizer_model = joblib.load('models/vectorizer_model.joblib')
-svc_model = joblib.load('models/svc_model.joblib')
+svc_model = joblib.load('models/best_svc_model.joblib')
 
 
 class TextInput(BaseModel):
