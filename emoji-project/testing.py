@@ -4,6 +4,14 @@ from scipy.sparse import load_npz
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
+from nltk.tokenize import TweetTokenizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+tt = TweetTokenizer()
+
+
+def tokenize(text):
+    return tt.tokenize(text)
 
 # If I import the .npz I get an error where 1 out of over 60000 features is missing
 # Therefore I do the preprocessing steps in the testing script itself

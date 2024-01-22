@@ -11,9 +11,52 @@ from fastapi import UploadFile, HTTPException
 
 tt = TweetTokenizer()
 
-
 def tokenize(text):
     return tt.tokenize(text)
+
+def label_to_emoji(label):
+    if label == 0:
+        return "❤"
+    elif label == 1:
+        return "😍"
+    elif label == 2:
+        return "😂"
+    elif label == 3:
+        return "💕"
+    elif label == 4:
+        return "🔥"
+    elif label == 5:
+        return "😊"
+    elif label == 6:
+        return "😎"
+    elif label == 7:
+        return "✨"
+    elif label == 8:
+        return "💙"
+    elif label == 9:
+        return "😘"
+    elif label == 10:
+        return "📷"
+    elif label == 11:
+        return "🇺🇸"
+    elif label == 12:
+        return "☀"
+    elif label == 13:
+        return "💜"
+    elif label == 14:
+        return "😉"
+    elif label == 15:
+        return "💯"
+    elif label == 16:
+        return "😁"
+    elif label == 17:
+        return "🎄"
+    elif label == 18:
+        return "📸"
+    elif label == 19:
+        return "😜"
+    else:
+        return "Invalid label"
 
 
 st.title('Emoji Prediction')
@@ -39,11 +82,22 @@ if prompt:
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error in text preprocessing: {str(e)}")
     # Make predictions using the loaded model
-    prediction = svc_model.predict(vectorized_text)
-    # prediction = dt_classifier_model.predict(vectorized_text)
+    svc_prediction = svc_model.predict(vectorized_text)
+    dt_prediction = dt_classifier_model.predict(vectorized_text)
+    knn_prediction = knn_classifier_model.predict(vectorized_text)
+    hard_ensemble_prediction = hard_ensemble_classifier.predict(vectorized_text)
+    soft_ensemble_prediction = soft_ensemble_classifier.predict(vectorized_text)
 
-    # Return the prediction
+
+    # Return the predictions
     # return {"prediction": prediction.tolist()}
-    st.write(f"Prediction is: {prediction.toList()}")
+    st.write(f"Support Vector Classifier's prediction is: {label_to_emoji(svc_prediction.toList())}")
+    st.write(f"Decision Tree Classifier's prediction is: {label_to_emoji(dt_prediction.toList())}")
+    st.write(f"K Nearest Neighbours Classifier's prediction is: {label_to_emoji(knn_prediction.toList())}")
+    st.write(f"Hard Ensemble Classifier's prediction is: {label_to_emoji(hard_ensemble_prediction.toList())}")
+    st.write(f"Soft Ensemble Classifier's prediction is: {label_to_emoji(soft_ensemble_prediction.toList())}")
+
+
+
 # with st.chat_message("EmojiBot"):
 #     st.write("Hi! Please input a short text, and I will reply with whichever emoji I think corresponds most to it!")
