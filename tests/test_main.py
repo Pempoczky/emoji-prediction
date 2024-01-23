@@ -39,8 +39,8 @@ vectorizer = TfidfVectorizer()
 #split the data into datapoints by separating them by line
 tokentext = lt.tokenize(train_text)
 tokenlabels = lt.tokenize(train_labels)
-print(len(tokentext))
-print(len(tokenlabels))
+# print(len(tokentext))
+# print(len(tokenlabels))
 
 # for i in range(10):
 #     print(tokentext[len(tokentext)-i-1] + "\n")
